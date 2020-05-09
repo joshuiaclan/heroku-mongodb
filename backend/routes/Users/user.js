@@ -6,21 +6,14 @@ require('dotenv').config({ path: './env/' });
 
 const middleWare = {
     login : require('./login'),
-    register : require('./register'),
-    webTokenVerifier :  require('../../lib/webTokenVerifier')
+    register : require('./register')
 };
 
-router.get('/', middleWare.webTokenVerifier ,( req, res) => {
-    jwt.verify(req.token, process.env.SECRET_KEY, (err, authData) => {
-        if(err) { 
-            res.sendStatus(403)
-        }
-        else {
-            User.find()
-            .then(users => res.json(users))
-            .catch(err => res.status(400).json(`Error: ${err}`));
-        }
-    });
+router.get('/', ( req, res) => {
+
+    User.find()
+    .then(users => res.json(users))
+    .catch(err => res.status(400).json(`Error: ${err}`));
 });
 
 
